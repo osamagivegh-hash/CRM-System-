@@ -66,8 +66,66 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'CRM API is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    version: process.env.npm_package_version || '1.0.0'
   });
+});
+
+// Detailed health check with database status
+app.get('/api/health/detailed', async (req, res) => {
+  try {
+    const mongoose = require('mongoose');
+    const dbStatus = mongoose.connection.readyState;
+    const dbStates = {
+      0: 'disconnected',
+      1: 'connected',
+      2: 'connecting',
+      3: 'disconnecting'
+    };
+
+    res.status(200).json({
+      success: true,
+      message: 'Detailed health check',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      version: process.env.npm_package_version || '1.0.0',
+      database: {
+        status: dbStates[dbStatus],
+        readyState: dbStatus
+      },
+      memory: {
+        used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + ' MB',
+        total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + ' MB'
+      },
+      uptime: Math.round(process.uptime()) + ' seconds'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Health check failed',
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Readiness probe for Render
+app.get('/api/ready', (req, res) => {
+  const mongoose = require('mongoose');
+  if (mongoose.connection.readyState === 1) {
+    res.status(200).json({
+      success: true,
+      message: 'Service is ready',
+      timestamp: new Date().toISOString()
+    });
+  } else {
+    res.status(503).json({
+      success: false,
+      message: 'Service not ready - database not connected',
+      timestamp: new Date().toISOString()
+    });
+  }
 });
 
 // API routes

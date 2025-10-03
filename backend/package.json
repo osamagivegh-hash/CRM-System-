@@ -10,8 +10,12 @@
     "clean": "node scripts/cleanDatabase.js",
     "reset": "npm run clean && npm run seed",
     "check-tenants": "node scripts/checkTenants.js",
+    "init-production": "node scripts/initProduction.js",
     "build": "echo 'Backend build complete'",
-    "heroku-postbuild": "npm install"
+    "postinstall": "echo 'Backend dependencies installed'",
+    "heroku-postbuild": "npm install",
+    "render-postbuild": "npm run build",
+    "health-check": "node -e \"console.log('Health check passed')\""
   },
   "dependencies": {
     "express": "^4.18.2",

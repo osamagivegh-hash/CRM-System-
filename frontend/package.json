@@ -25,9 +25,12 @@
   "scripts": {
     "start": "react-scripts start",
     "start:3001": "PORT=3001 react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build:production": "GENERATE_SOURCEMAP=false NODE_ENV=production react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "echo 'Frontend dependencies installed'",
+    "render-postbuild": "npm run build:production"
   },
   "eslintConfig": {
     "extends": [

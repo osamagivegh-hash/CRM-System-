@@ -8,7 +8,9 @@
     "build": "cd frontend && npm run build",
     "start": "cd backend && npm start",
     "seed": "cd backend && npm run seed",
-    "clean": "cd backend && npm run clean"
+    "clean": "cd backend && npm run clean",
+    "validate-deployment": "node scripts/validate-deployment.js",
+    "pre-deploy": "npm run validate-deployment"
   },
   "keywords": [
     "crm",

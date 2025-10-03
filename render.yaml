@@ -3,8 +3,12 @@ services:
   - type: web
     name: crm-backend
     env: node
-    buildCommand: cd backend && npm install
+    plan: starter
+    region: oregon
+    buildCommand: cd backend && npm ci --only=production
     startCommand: cd backend && npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
@@ -25,20 +29,31 @@ services:
           type: web
           name: crm-frontend
           envVarKey: RENDER_EXTERNAL_URL
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
 
   # Frontend Service  
   - type: web
     name: crm-frontend
     env: static
-    buildCommand: cd frontend && npm install && npm run build
+    plan: starter
+    region: oregon
+    buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: ./frontend/build
+    autoDeploy: true
     envVars:
       - key: REACT_APP_API_URL
         fromService:
           type: web
           name: crm-backend
           envVarKey: RENDER_EXTERNAL_URL
+      - key: GENERATE_SOURCEMAP
+        value: false
 
 databases:
   - name: crm-database
+    plan: starter
+    region: oregon
     databaseName: crm_production

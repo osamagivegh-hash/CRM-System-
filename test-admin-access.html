@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Tenant CRM - Admin Access Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .option {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .option h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .credentials {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .code {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Multi-Tenant CRM - Admin Access</h1>
+            <p>Choose your preferred method to access the Super Admin panel</p>
+        </div>
+
+        <div class="success">
+            ✅ <strong>Migration Completed Successfully!</strong><br>
+            Your CRM system is now multi-tenant with 5 tenants created.
+        </div>
+
+        <div class="credentials">
+            <h4>🔐 Super Admin Credentials:</h4>
+            <strong>Email:</strong> admin@system.local<br>
+            <strong>Password:</strong> admin123<br>
+            <div class="warning">
+                ⚠️ <strong>IMPORTANT:</strong> Change this password immediately after first login!
+            </div>
+        </div>
+
+        <div class="option">
+            <h3>Option 1: Direct Access (Recommended)</h3>
+            <p>Access the super admin panel through the main application URL:</p>
+            <a href="http://localhost:3000" class="btn" target="_blank">🌐 Open Main App (localhost:3000)</a>
+            <p><small>The system will automatically detect your super admin role and show the appropriate interface.</small></p>
+        </div>
+
+        <div class="option">
+            <h3>Option 2: Subdomain Access</h3>
+            <p>For proper subdomain routing, you need to add entries to your hosts file:</p>
+            
+            <h4>Step 1: Open Command Prompt as Administrator</h4>
+            <p>Right-click on Command Prompt and select "Run as administrator"</p>
+            
+            <h4>Step 2: Edit hosts file</h4>
+            <div class="code">
+notepad C:\Windows\System32\drivers\etc\hosts
+            </div>
+            
+            <h4>Step 3: Add this line at the end of the file</h4>
+            <div class="code">
+127.0.0.1 admin.localhost
+            </div>
+            
+            <h4>Step 4: Save and access</h4>
+            <a href="http://admin.localhost:3000" class="btn" target="_blank">👑 Open Admin Panel (admin.localhost:3000)</a>
+        </div>
+
+        <div class="option">
+            <h3>🏢 Available Tenants</h3>
+            <p>After setting up hosts file, you can also access individual tenant subdomains:</p>
+            <ul>
+                <li><strong>System Administration:</strong> system-administration.localhost:3000</li>
+                <li><strong>TechStart Solutions:</strong> techstart-solutions.localhost:3000</li>
+                <li><strong>Global Marketing Inc:</strong> global-marketing-inc.localhost:3000</li>
+                <li><strong>التضامن:</strong> tenant-68cd4857.localhost:3000</li>
+                <li><strong>شركة بلقيس:</strong> tenant-68cdab98.localhost:3000</li>
+            </ul>
+            <p><small>Add these to your hosts file if you want to test tenant-specific access.</small></p>
+        </div>
+
+        <div class="option">
+            <h3>🔧 API Testing</h3>
+            <p>Test the backend API directly:</p>
+            <a href="http://localhost:5002/api/health" class="btn" target="_blank">🔍 Test API Health</a>
+            <p><small>This should return a JSON response confirming the API is running.</small></p>
+        </div>
+
+        <div class="warning">
+            <h4>⚠️ Troubleshooting</h4>
+            <p>If you're having issues:</p>
+            <ul>
+                <li>Make sure both backend (port 5002) and frontend (port 3000) servers are running</li>
+                <li>Check that MongoDB is running and accessible</li>
+                <li>Try clearing browser cache and cookies</li>
+                <li>Check browser console for any JavaScript errors</li>
+            </ul>
+        </div>
+
+        <div class="success">
+            <h4>📖 Documentation</h4>
+            <p>For complete setup instructions, read: <strong>MULTI_TENANT_CRM_GUIDE.md</strong></p>
+        </div>
+    </div>
+
+    <script>
+        // Simple JavaScript to test if servers are running
+        fetch('http://localhost:5002/api/health')
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ Backend API is running:', data);
+            })
+            .catch(error => {
+                console.error('❌ Backend API not accessible:', error);
+                alert('⚠️ Backend server (port 5002) is not running. Please start it first.');
+            });
+    </script>
+</body>
+</html>
+
+
+
+

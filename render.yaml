@@ -34,14 +34,15 @@ services:
       - key: RATE_LIMIT_MAX_REQUESTS
         value: 100
 
-  # Frontend Service  
+  # Frontend Service (Web Service for better integration)
   - type: web
     name: crm-frontend
-    env: static
+    env: node
     plan: starter
     region: oregon
-    buildCommand: cd frontend && npm ci && npm run build
-    staticPublishPath: ./frontend/build
+    buildCommand: cd frontend && npm ci && npm run build && npm install -g serve
+    startCommand: serve -s build -l 10000
+    healthCheckPath: /
     autoDeploy: true
     envVars:
       - key: REACT_APP_API_URL
@@ -51,6 +52,8 @@ services:
           envVarKey: RENDER_EXTERNAL_URL
       - key: GENERATE_SOURCEMAP
         value: false
+      - key: PORT
+        value: 10000
 
 databases:
   - name: crm-database

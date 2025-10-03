@@ -57,6 +57,6 @@ services:
 
 databases:
   - name: crm-database
-    plan: starter
+    plan: free
     region: oregon
     databaseName: crm_production

@@ -29,6 +29,7 @@ A blueprint in Render is a configuration file (`render.yaml`) that defines multi
      - `crm-backend` (Node.js web service)
      - `crm-frontend` (Static site)
      - `crm-database` (MongoDB database)
+   - **Note**: Services will use the default Starter plan (free tier)
    - Click "Apply"
 
 ### Option B: Deploy from URL
@@ -216,14 +217,15 @@ Once deployment is complete:
 
 ## Cost Optimization
 
-### Free Tier Limitations
+### Starter Plan Limitations
 - Services sleep after 15 minutes of inactivity
 - Limited build minutes per month
 - Database connection limits
+- 750 hours per month for web services
 
 ### Upgrade Strategy
 - Monitor usage patterns
-- Upgrade services as needed
+- Upgrade to higher plans as needed
 - Consider reserved instances for consistent performance
 
 ## Support Resources

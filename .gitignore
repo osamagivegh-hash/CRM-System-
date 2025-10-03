@@ -15,6 +15,9 @@ yarn-error.log*
 /frontend/build
 /backend/dist
 
+# Render deployment
+render.yaml.bak
+
 # Logs
 logs
 *.log

@@ -1,0 +1,47 @@
+services:
+  # Backend Service
+  - type: web
+    name: crm-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        fromDatabase:
+          name: crm-database
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: crm-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # Frontend Service  
+  - type: web
+    name: crm-frontend
+    env: static
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: crm-backend
+          envVarKey: RENDER_EXTERNAL_URL
+
+databases:
+  - name: crm-database
+    plan: free
+    databaseName: crm_production
